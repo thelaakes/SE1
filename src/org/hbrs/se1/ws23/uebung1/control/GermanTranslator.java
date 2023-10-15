@@ -1,5 +1,7 @@
 package org.hbrs.se1.ws23.uebung1.control;
 
+import java.util.HashMap;
+
 public class GermanTranslator implements Translator {
 
 	public String date = "Okt/2023"; // Default-Wert
@@ -8,9 +10,20 @@ public class GermanTranslator implements Translator {
 	 * Methode zur Übersetzung einer Zahl in eine String-Repraesentation
 	 */
 	public String translateNumber( int number ) {
-		// [ihr Source Code aus Übung 1-2]
+		// Hashmap für das direkte Mapping von Zahlen auf Strings
+		HashMap<Integer, String> germanNumbers = new HashMap<Integer, String>();
+		germanNumbers.put(1, "eins");
+		germanNumbers.put(2, "zwei");
+		germanNumbers.put(3, "drei");
+		germanNumbers.put(4, "vier");
+		germanNumbers.put(5, "fünf");
+		germanNumbers.put(6, "sechs");
+		germanNumbers.put(7, "sieben");
+		germanNumbers.put(8, "acht");
+		germanNumbers.put(9, "neun");
+		germanNumbers.put(10, "zehn");
 
-		return "null";
+		return germanNumbers.getOrDefault(number, "Übersetzung der Zahl " + number + " nicht möglich (" + Translator.version + ")");
 	}
 
 	/**
