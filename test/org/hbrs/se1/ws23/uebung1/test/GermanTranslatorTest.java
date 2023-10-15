@@ -13,4 +13,7 @@ class GermanTranslatorTest {
         String value = translator.translateNumber(0);
         assertEquals(value, "null");
     }
+
+
+
 }
