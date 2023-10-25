@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws23.uebung2;
+package org.hbrs.se1.ws23.uebung2.control;
 public interface Member {
 
     /**
@@ -8,4 +8,5 @@ public interface Member {
      */
     
     public Integer getID();
+    public String toString();
 }
