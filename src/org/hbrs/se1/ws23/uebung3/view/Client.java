@@ -5,12 +5,12 @@ import org.hbrs.se1.ws23.uebung3.control.Container;
 import org.hbrs.se1.ws23.uebung3.control.ContainerException;
 
 public class Client {
-    public Client(Container container, MemberView view) throws ContainerException {
+    Container  container = Container.getInstance();
+    MemberView view = new MemberView();
+    public Client() {
+    }
 
-        for (int i = 0; i < 10; i++) {
-            ConcreteMember member = new ConcreteMember(i);
-            container.addMember(member);
-        }
+    public void viewDump() {
         view.dump(container.getCurrentList());
     }
 }
