@@ -64,7 +64,6 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
      * Some coding examples come for free :-)
      * Take also a look at the import statements above ;-!
      */
-    @Override
     public List<E> load() throws PersistenceException {
         List<E> newList = null;
         ObjectInputStream ois = null;
