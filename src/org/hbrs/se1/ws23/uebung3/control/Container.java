@@ -1,5 +1,6 @@
 package org.hbrs.se1.ws23.uebung3.control;
 
+import org.hbrs.se1.ws23.uebung3.persistence.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -39,15 +40,24 @@ public class Container {
         throw new ContainerException("Das Member-Objekt mit der ID [" + id + "] ist nicht vorhanden!");
     }
 
-    // Gibt alle Member-Objekte im Container aus
-    public void dump() {
-        for (Member member : list) {
-            System.out.println(member.toString());
-        }
+// Gibt ein Member-Objekt aus dem Container anhand seiner ID zurück
+    public ArrayList<Member> getCurrentList() {
+        return list;
     }
 
     // Gibt die Anzahl der Member-Objekte im Container zurück
     public int size() {
         return list.size();
     }
+
+    public void store() throws PersistenceException {
+        PersistenceStrategy<Member> ps = new PersistenceStrategyStream<Member>();
+        ps.save(list);
+    }
+
+    public void load() throws PersistenceException {
+        PersistenceStrategy<Member> ps = new PersistenceStrategyStream<Member>();
+        ps.load();
+    }
+
 }
