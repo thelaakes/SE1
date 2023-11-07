@@ -23,9 +23,14 @@ public class Container {
 
     // Fügt ein Member-Objekt zum Container hinzu, wirft eine ContainerException bei Duplikaten
     public void addMember(Member member) throws ContainerException {
-        if (list.contains(member)) {
-            throw new ContainerException("Das Member-Objekt mit der ID [" + member.getID() + "] ist bereits vorhanden!");
+        // Überprüfen, ob ein Member mit derselben ID bereits in der Liste vorhanden ist
+        for (Member existingMember : list) {
+            if (existingMember.getID().equals(member.getID())) {
+                throw new ContainerException("Das Member-Objekt mit der ID [" + member.getID() + "] ist bereits vorhanden!");
+            }
         }
+
+        // Wenn keine Duplikate gefunden wurden, füge das Member-Objekt zur Liste hinzu
         list.add(member);
     }
 
@@ -55,9 +60,14 @@ public class Container {
         ps.save(list);
     }
 
-    public void load() throws PersistenceException {
+    public void load() throws PersistenceException, ContainerException {
         PersistenceStrategy<Member> ps = new PersistenceStrategyStream<Member>();
-        ps.load();
+        Container container = Container.getInstance();
+        this.list.clear();
+        for (
+                Member member : ps.load()) {
+                container.addMember(member);
+        }
     }
 
 }
