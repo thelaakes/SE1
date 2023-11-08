@@ -6,9 +6,9 @@ import java.io.*;
 public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
 
     // URL of file, in which the objects are stored
-    private String location = "objects.ser";
-    FileOutputStream fos = null;
-    ObjectOutputStream oos = null;
+    private String location = "C:\\Users\\lukas\\OneDrive\\Desktop\\test.csv";
+    private FileOutputStream fos = null;
+    private ObjectOutputStream oos = null;
 
     // Backdoor method used only for testing purposes, if the location should be changed in a Unit-Test
     // Example: Location is a directory (Streams do not like directories, so try this out ;-)!
@@ -24,10 +24,10 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
      */
     public void openConnection() throws PersistenceException {
         try {
-            FileOutputStream fos = new FileOutputStream(location);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            fos = new FileOutputStream(location);
+            oos = new ObjectOutputStream(fos);
         } catch (IOException e) {
-            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "IO Exception");
+            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, e.getMessage());
         }
     }
 
@@ -40,7 +40,7 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
             oos.close();
             fos.close();
         } catch (IOException e) {
-            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "IO Exception");
+            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, e.getMessage());
         }
     }
 
@@ -48,14 +48,16 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     /**
      * Method for saving a list of Member-objects to a disk (HDD)
      */
-    public void save(List<E> member) throws PersistenceException  {
+    public void save(List<E> member) throws PersistenceException {
 
         //Method for saving a list of Member-objects to a disk (HDD)
+        openConnection();
         try {
             oos.writeObject(member);
         } catch (IOException e) {
-            throw new PersistenceException(PersistenceException.ExceptionType.SaveFailure, "IO Exception");
+            throw new RuntimeException(e);
         }
+        closeConnection();
     }
 
     @Override
@@ -80,23 +82,23 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
             }
 
         } catch (IOException | ClassNotFoundException e) {
-            throw new PersistenceException(PersistenceException.ExceptionType.LoadFailure, "IO Exception or Class Not Found Exception");
+            throw new PersistenceException(PersistenceException.ExceptionType.LoadFailure, e.getMessage());
         } finally {
-            if (ois != null) {
-                try {
-                    ois.close();
-                } catch (IOException e) {
-                    // Handle any potential close() exception
-                }
+            try {
+                ois.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+        }
             if (fis != null) {
+
                 try {
                     fis.close();
                 } catch (IOException e) {
-                    // Handle any potential close() exception
+                    throw new RuntimeException(e);
                 }
+
             }
-        }
 
         return newList;
     }
