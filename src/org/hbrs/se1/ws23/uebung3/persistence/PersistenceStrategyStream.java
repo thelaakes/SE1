@@ -32,7 +32,7 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     }
 
     @Override
-    /**
+    /*
      * Method for closing the connections to a stream
      */
     public void closeConnection() throws PersistenceException {
@@ -45,7 +45,7 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     }
 
     @Override
-    /**
+    /*
      * Method for saving a list of Member-objects to a disk (HDD)
      */
     public void save(List<E> member) throws PersistenceException {
@@ -61,7 +61,7 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     }
 
     @Override
-    /**
+    /*
      * Method for loading a list of Member-objects from a disk (HDD)
      * Some coding examples come for free :-)
      * Take also a look at the import statements above ;-!
